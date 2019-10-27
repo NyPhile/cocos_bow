@@ -44,8 +44,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.3134549407944277,
-      "y": 0.3134549407944277,
+      "x": 0.2894490254872564,
+      "y": 0.2894490254872564,
       "z": 1
     },
     "_quat": {
@@ -795,7 +795,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "rowLeft",
+    "_name": "bowLeft",
     "_objFlags": 0,
     "_parent": {
       "__id__": 8
@@ -975,7 +975,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "rowRight",
+    "_name": "bowRight",
     "_objFlags": 0,
     "_parent": {
       "__id__": 8
@@ -1250,7 +1250,7 @@
     },
     "_enabled": true,
     "lineWidth": 120,
-    "rowLeftWidth": 200,
+    "bowLeftWidth": 200,
     "ballWrapPositionY": 500,
     "ballWrapPositionX": -20,
     "_id": "017vIyBp9JkImrNaqDbmQc"
