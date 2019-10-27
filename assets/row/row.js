@@ -13,17 +13,17 @@ cc.Class({
 
   properties: {
     lineWidth: 120,
-    rowLeftWidth: 200,
+    bowLeftWidth: 200,
     ballWrapPositionY: 520,
     ballWrapPositionX: -20,
   },
 
   onLoad () {
     let touchPoint;
-    let rowLeft = this.rowLeft = this.node.getChildByName("rowLeft")
-    let rowRight = this.rowRight = this.node.getChildByName("rowRight")
-    let lineLeft = this.lineLeft = cc.find("rowLeft/lineLeft", this.node)
-    let lineRight = this.lineRight = cc.find("rowRight/lineRight", this.node)
+    let bowLeft = this.bowLeft = this.node.getChildByName("bowLeft")
+    let bowRight = this.bowRight = this.node.getChildByName("bowRight")
+    let lineLeft = this.lineLeft = cc.find("bowLeft/lineLeft", this.node)
+    let lineRight = this.lineRight = cc.find("bowRight/lineRight", this.node)
     let ballWrap = this.ballWrap = cc.find("ballWrap", this.node)
 
     this.node.on('touchstart', e => {
@@ -34,49 +34,72 @@ cc.Class({
     this.node.on('touchmove', e => {
       let deltaX = e.getLocation().x - touchPoint.x
       let deltaY = e.getLocation().y - touchPoint.y
-
-      deltaX = deltaX > 300 ? 300 : (deltaX < -300 ? -300 : deltaX)
-      deltaY = deltaY < -400 ? -400 : (deltaY > 200 ? 200 : deltaY)
-      let moveX = this.ballWrapPositionX + deltaX / 4
-      let rowRotation = - deltaY / 80
-      let lineRotation = rowRotation * 8
-
-      rowRight.rotation = rowRotation
-      rowLeft.rotation = -rowRotation
-
-      lineRight.rotation = -lineRotation
-
-      let lineRightWidth = this.lineWidth / Math.cos(lineRotation / 180 * Math.PI) + this.rowLeftWidth * Math.cos((53 - rowRotation) / 180 * Math.PI) - this.lineWidth
-      let lineLeftWidth = this.lineWidth / Math.cos(lineRotation / 180 * Math.PI) + this.rowLeftWidth * Math.cos((53 - rowRotation) / 180 * Math.PI) - this.lineWidth
-      let ballDeltaY = lineLeftWidth * Math.sin(lineRotation / 180 * Math.PI)
-      let ballWrapY = this.ballWrapPositionY - ballDeltaY
-      let lineLeftHorizon = Math.cos(lineRotation / 180 * Math.PI) * lineLeftWidth + moveX
-      let lineRightHorizon = Math.cos(-lineRotation / 180 * Math.PI) * lineRightWidth - moveX
-
-      lineLeft.width = Math.sqrt(lineLeftHorizon * lineLeftHorizon + ballDeltaY * ballDeltaY * .9)
-      lineRight.width = Math.sqrt(lineRightHorizon * lineRightHorizon + ballDeltaY * ballDeltaY * .86)
-      let sign = rowRotation > 0 ? 1 : -1
-      lineLeft.rotation = sign * (Math.acos(lineLeftHorizon / lineLeft.width)) / Math.PI * 180
-      lineRight.rotation = -sign * (Math.acos(lineRightHorizon / lineRight.width)) / Math.PI * 180 * 1.25
-
-      ballWrap.y = ballWrapY
-      ballWrap.x = moveX
-
-      // 球的角度
-      let ballRotation = -Math.atan(moveX / ballWrapY) / Math.PI * 180 * 1.5
-      ballWrap.rotation = ballRotation
+      this.setbow(deltaX, deltaY)
     })
     this.node.on('touchend', e => {
-      this.resetRow(e)
+      this.shoot()
     })
     this.node.on('touchcancel', e => {
-      this.resetRow(e)
-    }, this)
+      this.shoot()
+    })
   },
 
-  resetRow (e) {
-    this.rowRight.rotation = 0
-    this.rowLeft.rotation = 0
+  setbow (x, y) {
+    let deltaX = x
+    let deltaY = y
+    //范围控制
+    deltaX = deltaX > 300 ? 300 : (deltaX < -300 ? -300 : deltaX)
+    deltaY = deltaY < -400 ? -400 : (deltaY > 200 ? 200 : deltaY)
+
+    let moveX = this.ballWrapPositionX + deltaX / 4
+    let bowRotation = - deltaY / 70
+    let lineRotation = bowRotation * 8
+
+    this.bowRight.rotation = bowRotation
+    this.bowLeft.rotation = -bowRotation
+
+    this.lineRight.rotation = -lineRotation
+
+    let lineRightWidth = this.lineWidth / Math.cos(lineRotation / 180 * Math.PI) + this.bowLeftWidth * Math.cos((53 - bowRotation) / 180 * Math.PI) - this.lineWidth
+    let lineLeftWidth = this.lineWidth / Math.cos(lineRotation / 180 * Math.PI) + this.bowLeftWidth * Math.cos((53 - bowRotation) / 180 * Math.PI) - this.lineWidth
+    let ballDeltaY = lineLeftWidth * Math.sin(lineRotation / 180 * Math.PI)
+    let ballWrapY = this.ballWrapPositionY - ballDeltaY
+    let lineLeftHorizon = Math.cos(lineRotation / 180 * Math.PI) * lineLeftWidth + moveX
+    let lineRightHorizon = Math.cos(-lineRotation / 180 * Math.PI) * lineRightWidth - moveX
+
+    this.lineLeft.width = Math.sqrt(lineLeftHorizon * lineLeftHorizon + ballDeltaY * ballDeltaY * .9)
+    this.lineRight.width = Math.sqrt(lineRightHorizon * lineRightHorizon + ballDeltaY * ballDeltaY * .86)
+    let sign = bowRotation > 0 ? 1 : -1
+    this.lineLeft.rotation = sign * (Math.acos(lineLeftHorizon / this.lineLeft.width)) / Math.PI * 180
+    this.lineRight.rotation = -sign * (Math.acos(lineRightHorizon / this.lineRight.width)) / Math.PI * 180 * 1.25
+
+    this.ballWrap.y = ballWrapY
+    this.ballWrap.x = moveX
+
+    // 球的角度
+    let ballRotation = -Math.atan(moveX / ballWrapY) / Math.PI * 180 * 1.5
+    this.ballWrap.rotation = ballRotation
+  },
+
+  shoot () {
+    this.resetbow()
+    setTimeout(e => {
+      this.setbow(0,60)
+    }, 40)
+    setTimeout(e => {
+      this.resetbow()
+    }, 80)
+    setTimeout(e => {
+      this.setbow(0,30)
+    }, 120)
+    setTimeout(e => {
+      this.resetbow()
+    }, 160)
+  },
+
+  resetbow () {
+    this.bowRight.rotation = 0
+    this.bowLeft.rotation = 0
     this.lineLeft.width = this.lineWidth - 20
     this.lineLeft.rotation = 0
     this.lineRight.width = this.lineWidth - 20
