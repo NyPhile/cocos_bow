@@ -26,6 +26,9 @@ cc.Class({
     let lineRight = this.lineRight = cc.find("bowRight/lineRight", this.node)
     let ballWrap = this.ballWrap = cc.find("ballWrap", this.node)
 
+    let wrap = this.wrap = cc.find("ballWrap/wrap", this.node)
+    let ball = this.ball = cc.find("ballWrap/ball", this.node)
+
     this.node.on('touchstart', e => {
       touchPoint = e.getLocation()
       this.ballWrapPositionY = 520
@@ -82,6 +85,8 @@ cc.Class({
   },
 
   shoot () {
+    this.ball.opacity = 0
+    this.wrap.opacity = 255
     this.resetbow()
     setTimeout(e => {
       this.setbow(0,60)
@@ -95,6 +100,10 @@ cc.Class({
     setTimeout(e => {
       this.resetbow()
     }, 160)
+    setTimeout(e => {
+      this.wrap.opacity = 0
+      this.ball.opacity = 255
+    }, 400)
   },
 
   resetbow () {
