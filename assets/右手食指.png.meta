@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "21bcecba-ba7b-433b-968b-38d9b60d331c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "右手食指": {
+      "ver": "1.0.3",
+      "uuid": "da9047f7-552f-4c56-9a43-1ff1b1f6dc94",
+      "rawTextureUuid": "21bcecba-ba7b-433b-968b-38d9b60d331c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 78,
+      "height": 67,
+      "rawWidth": 78,
+      "rawHeight": 67,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
