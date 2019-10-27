@@ -27,16 +27,16 @@ cc.Class({
     let ballWrap = this.ballWrap = cc.find("ballWrap", this.node)
 
     this.node.on('touchstart', e => {
-      console.log('touchstart')
       touchPoint = e.getLocation()
       this.ballWrapPositionY = 520
     })
 
     this.node.on('touchmove', e => {
-      console.log('touchmove')
       let deltaX = e.getLocation().x - touchPoint.x
       let deltaY = e.getLocation().y - touchPoint.y
 
+      deltaX = deltaX > 300 ? 300 : (deltaX < -300 ? -300 : deltaX)
+      deltaY = deltaY < -400 ? -400 : (deltaY > 200 ? 200 : deltaY)
       let moveX = this.ballWrapPositionX + deltaX / 4
       let rowRotation = - deltaY / 80
       let lineRotation = rowRotation * 8
